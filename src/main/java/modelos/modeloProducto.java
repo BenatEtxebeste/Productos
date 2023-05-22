@@ -79,7 +79,7 @@ public class modeloProducto extends Conexion{
 		boolean encontrado = false;
 		
 		try {
-			PreparedStatement pst = conexion.prepareStatement("SELECT codigo FROM productos WHERE codigo = ?");
+			PreparedStatement pst = conexion.prepareStatement("SELECT * FROM productos WHERE codigo = ?");
 			
 			pst.setInt(1, codigo);
 			

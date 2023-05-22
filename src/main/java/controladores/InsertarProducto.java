@@ -3,7 +3,6 @@ package controladores;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -42,12 +41,11 @@ public class InsertarProducto extends HttpServlet {
 		double precio = Double.parseDouble(request.getParameter("precio"));
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		int id_seccion = Integer.parseInt(request.getParameter("seccion"));
-		boolean codigoEncontrado = mP.validarProducto(codigo);
 		
 		Producto producto = new Producto();
 		
 		mP.Conectar();
-		ArrayList<Producto> productos = mP.getProductos();
+		boolean codigoEncontrado = mP.validarProducto(codigo);
 		mP.cerrar();
 		
 		producto.setCodigo(codigo);
@@ -62,7 +60,7 @@ public class InsertarProducto extends HttpServlet {
 		}
 		producto.setId_seccion(id_seccion);
 
-			if ((codigoEncontrado = true) || (precio <= 0) || (cantidad <= 0) || (producto.getCaducidad().after(new Date()))) {
+			if ((codigoEncontrado == true) || (precio <= 0) || (cantidad <= 0) || (producto.getCaducidad().before(new Date()))) {
 				System.out.println("Datos introducidos erroneos. Introduce datos validos.");
 			} else {
 				mP.Conectar();
