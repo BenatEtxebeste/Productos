@@ -3,7 +3,6 @@ package controladores;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modelos.modeloProducto;
 import clases.Producto;
+import modelos.modeloProducto;
 
 /**
- * Servlet implementation class InsertarProducto
+ * Servlet implementation class ModificarProducto
  */
-@WebServlet("/InsertarProducto")
-public class InsertarProducto extends HttpServlet {
+@WebServlet("/ModificarProducto")
+public class ModificarProducto extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertarProducto() {
+    public ModificarProducto() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,43 +33,35 @@ public class InsertarProducto extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		modeloProducto mP = new modeloProducto();
-		boolean error = false;
 		
+		int id = Integer.parseInt(request.getParameter("id"));
 		String codigo = request.getParameter("codigo");
 		String nombre = request.getParameter("nombre");
 		int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		double precio = Double.parseDouble(request.getParameter("precio"));
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-		int id_seccion = Integer.parseInt(request.getParameter("seccion"));
+		SimpleDateFormat caducidad = new SimpleDateFormat("yyyy-MM-dd");
+		int id_seccion = Integer.parseInt(request.getParameter("id_seccion"));
 		
 		Producto producto = new Producto();
 		
-		mP.Conectar();
-		boolean codigoEncontrado = mP.validarProducto(codigo);
-		mP.cerrar();
-		
+		producto.setId(id);
 		producto.setCodigo(codigo);
 		producto.setNombre(nombre);
-		producto.setCantidad(cantidad);	
+		producto.setCantidad(cantidad);
 		producto.setPrecio(precio);
 		try {
-			producto.setCaducidad(formato.parse(request.getParameter("caducidad")));
+			producto.setCaducidad(caducidad.parse(request.getParameter("caducidad")));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		producto.setId_seccion(id_seccion);
-
-			if ((codigoEncontrado == true) || (precio <= 0) || (cantidad <= 0) || (producto.getCaducidad().before(new Date()))) {
-				error = true;
-				request.setAttribute("error", error);
-			} else {
-				mP.Conectar();
-				mP.insertarProducto(producto);
-				mP.cerrar();
-			}
 		
-		request.getRequestDispatcher("VerProductos").forward(request, response);
+		mP.Conectar();
+		mP.modificarProducto(producto);
+		mP.cerrar();
+		
+		response.sendRedirect("VerProductos");
 	}
 
 	/**

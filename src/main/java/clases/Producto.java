@@ -5,7 +5,7 @@ import java.util.Date;
 public class Producto {
 
 	private int id;
-	private int codigo;
+	private String codigo;
 	private String nombre;
 	private int cantidad;
 	private double precio;
@@ -17,7 +17,7 @@ public class Producto {
 		super();
 	}
 	
-	public Producto(int id, int codigo, String nombre, int cantidad, double precio, Date caducidad, int id_seccion, Seccion seccion) {
+	public Producto(int id, String codigo, String nombre, int cantidad, double precio, Date caducidad, int id_seccion, Seccion seccion) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -37,11 +37,11 @@ public class Producto {
 		this.id = id;
 	}
 
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 
@@ -92,4 +92,13 @@ public class Producto {
 	public void setSeccion(Seccion seccion) {
 		this.seccion = seccion;
 	}
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", cantidad=" + cantidad
+				+ ", precio=" + precio + ", caducidad=" + caducidad + ", id_seccion=" + id_seccion + ", seccion="
+				+ seccion + "]";
+	}
+	
+	
 }

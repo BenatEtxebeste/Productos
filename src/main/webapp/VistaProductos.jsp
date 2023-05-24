@@ -159,10 +159,41 @@ a:hover {
 
 <body>
 	
+		<c:if test="${error eq true}" var="error">
+			<div class="alert alert-danger" role="alert">Datos incorrectos introducidos</div>
+		</c:if>
 		<ul id="menu">
 			<li><a href="FormularioInsertarProducto" title="CREAR">CREAR</a></li>
 			<li><a href="VistaProducto.jsp" title="VISTAS">VISTAS</a></li>
 		</ul>
+
+		<form method="GET" action="BuscadorCodNombre">
+	        <div class="input-container">
+	            <input name="codOnombre" id="codOnombre" placeholder="Buscador" class="input-field" type="text"> 
+	            <label for="input-field" class="input-label"></label>
+	            <span class="input-highlight"></span>
+	        </div>
+    	</form>
+    	
+    	<br><br>
+    	
+    	<form method="GET" action="BuscadorPrecio">
+	        <div class="input-container">
+	            <input name="minPrecio" id="minPrecio" placeholder="Min Prize" class="input-field" type="text">
+	            <input name="maxPrecio" id="maxPrecio" placeholder="Max Prize" class="input-field" type="text">
+	            <label for="input-field" class="input-label"></label>
+	            <span class="input-highlight"></span>
+	        </div>
+	        <input id="LogIn" type="submit" value="BUSCAR" />
+    	</form>
+
+		<br><br>
+		
+		<td><a class= "ordenar" href="OrdenarCodigos">ASC </a> </td>
+		
+		<br>
+		
+		<td><a class= "ordenar" href="OrdenarCodigos">DES </a> </td>
 
 		<h1>Productos</h1>
 
@@ -176,6 +207,7 @@ a:hover {
 					<th><span>precio</span></th>
 					<th><span>caducidad</span></th>
 					<th><span>id_seccion</span></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -188,6 +220,7 @@ a:hover {
 	      <td>${productos.precio}</td>
 	      <td>${productos.caducidad}</td>
 	      <td>${productos.seccion.nombre}</td>
+	      <td><a class= "modificar" href="FormularioModificarProducto?id=${productos.id}">Modificar </a> </td>
 	    </tr>
 	  </c:forEach>
   </tbody>
