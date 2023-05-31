@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import clases.Seccion;
+import clases.Supermercado;
+import modelos.modeloProducto;
 import modelos.modeloSeccion;
 
 /**
@@ -32,12 +34,18 @@ public class FormularioInsertarProducto extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		modeloSeccion mS = new modeloSeccion();
+		modeloProducto mP = new modeloProducto();
 		
 		mS.Conectar();
 		ArrayList<Seccion> secciones = mS.getSecciones();
 		mS.cerrar();
 		
+		mP.Conectar();
+		ArrayList<Supermercado>supermercados = mP.getSupermercado();
+		mP.cerrar();
+		
 		request.setAttribute("secciones", secciones);
+		request.setAttribute("supermercados", supermercados);
 		request.getRequestDispatcher("InsertarProducto.jsp").forward(request, response);
 	}
 

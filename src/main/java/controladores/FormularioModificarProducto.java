@@ -1,6 +1,8 @@
 package controladores;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import clases.Producto;
+import clases.Seccion;
 import modelos.modeloProducto;
+import modelos.modeloSeccion;
 
 /**
  * Servlet implementation class FormularioModificarProducto
@@ -29,7 +33,7 @@ public class FormularioModificarProducto extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		modeloSeccion mS = new modeloSeccion();
 		modeloProducto mP = new modeloProducto();
 		
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -38,6 +42,11 @@ public class FormularioModificarProducto extends HttpServlet {
 		Producto producto = mP.getProducto(id);
 		mP.cerrar();
 		
+		mS.Conectar();
+		ArrayList<Seccion> secciones = mS.getSecciones();
+		mS.cerrar();
+		
+		request.setAttribute("secciones", secciones);
 		request.setAttribute("producto", producto);
 		request.getRequestDispatcher("ModificarProducto.jsp").forward(request, response);
 	}

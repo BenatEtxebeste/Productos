@@ -1,28 +1,25 @@
 package controladores;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import clases.Producto;
 import modelos.modeloProducto;
 
 /**
- * Servlet implementation class OrdenarCodigos
+ * Servlet implementation class EliminarProducto
  */
-@WebServlet("/OrdenarCodigos")
-public class OrdenarCodigos extends HttpServlet{
+@WebServlet("/EliminarProducto")
+public class EliminarProducto extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OrdenarCodigos() {
+    public EliminarProducto() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +29,27 @@ public class OrdenarCodigos extends HttpServlet{
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		modeloProducto mP = new modeloProducto();
-		ComparadorCodigo compare = new ComparadorCodigo();
-		
+		int id = Integer.parseInt(request.getParameter("id"));
+		int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		mP.Conectar();
-		ArrayList<Producto> productos = mP.getProductos();
+		boolean encontrado = mP.buscarProductoEnSupermercado(id);
 		mP.cerrar();
-		
-		if (request.getParameter("ordenar").equals("Ascendente")) {
-			productos.sort(compare);
-		}else if (request.getParameter("ordenar").equals("Descendente")) {
-			productos.sort(compare.reversed());
+		 
+		if (cantidad > 0) {
+			mP.Conectar();
+			mP.eliminarUnaUnidad(id, cantidad);
+			mP.cerrar();
+		}else if (cantidad == 0 && encontrado == true) {
+			mP.Conectar();
+			mP.eliminarProductoDeSupermercados(id);
+			mP.cerrar();
+		}else if (cantidad == 0 && encontrado == false) {
+			mP.Conectar();
+			mP.eliminarProducto(id);
+			mP.cerrar();
 		}
 		
-		request.setAttribute("productos", productos);
-		request.getRequestDispatcher("VistaProductos.jsp").forward(request, response);
+		response.sendRedirect("VerProductos");
 	}
 
 	/**

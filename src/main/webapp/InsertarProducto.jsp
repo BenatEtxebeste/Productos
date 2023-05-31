@@ -195,6 +195,11 @@ nav ul {
                     		</select>
                     		<br>
                     		<br>
+                    		<c:forEach items="${supermercados}" var="supermercado">
+                    			<label><input type="checkbox" name="supermercados" value="${supermercado.id}">${supermercado.nombre}</label>
+                    		</c:forEach>
+                    		<br>
+                    		<br>
 							<input id="LogIn" type="submit" value="CREAR" />
 						</form>
 					</div>

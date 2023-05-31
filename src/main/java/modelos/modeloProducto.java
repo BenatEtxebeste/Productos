@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import clases.Producto;
+import clases.Supermercado;
 
 public class modeloProducto extends Conexion{
 
@@ -137,6 +138,128 @@ public class modeloProducto extends Conexion{
 			
 			pst.execute();
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Supermercado> getSupermercado(){
+		ArrayList<Supermercado> supermercados = new ArrayList<Supermercado>();
+		
+		try {
+			PreparedStatement pst = conexion.prepareStatement("SELECT * FROM supermercados");
+			
+			ResultSet resultado = pst.executeQuery();
+			
+			while(resultado.next()) {
+				Supermercado supermercado = new Supermercado();
+				
+				supermercado.setId(resultado.getInt("id"));
+				supermercado.setNombre(resultado.getString("nombre"));
+				
+				supermercados.add(supermercado);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return supermercados;
+	}
+
+	public int idMasAlto() {
+		int idMasAlto = 0;
+		
+		try {
+			PreparedStatement pst = conexion.prepareStatement("SELECT MAX(id) FROM productos");
+			
+			ResultSet resultado = pst.executeQuery();
+			
+			resultado.next();
+			
+			idMasAlto = resultado.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return idMasAlto;
+	}
+
+	public void insertarProductoSupermercado(int idMasAlto, String[] supermercados) {
+		try {
+			PreparedStatement pst = conexion.prepareStatement("INSERT INTO productos_supermercados (id_producto, id_supermercado) VALUES (?, ?)");
+			
+			pst.setInt(1, idMasAlto);
+			
+			for (String supermercado : supermercados) {
+				pst.setInt(2, Integer.parseInt(supermercado));
+				pst.execute();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void eliminarUnaUnidad(int id, int cantidad) {
+		try {
+			PreparedStatement pst = conexion.prepareStatement("UPDATE productos SET cantidad = ? WHERE id = ?");
+			
+			pst.setInt(1, cantidad - 1);
+			pst.setInt(2, id);
+			
+			pst.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public boolean buscarProductoEnSupermercado(int id) {
+		boolean encontrado = false;
+		
+		try {
+			PreparedStatement pst = conexion.prepareStatement("SELECT * FROM productos_supermercados WHERE id_producto = ?");
+			
+			pst.setInt(1, id);
+			
+			ResultSet resultado = pst.executeQuery();
+			
+			if (resultado.next()) {
+				encontrado = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encontrado;
+	}
+
+	public void eliminarProductoDeSupermercados(int id) {
+		try {
+			PreparedStatement pst = conexion.prepareStatement("DELETE FROM productos_supermercados WHERE id_producto = ?");
+			
+			pst.setInt(1, id);
+			
+			pst.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarCodigos(String[] codigos) {
+		try {
+			PreparedStatement pst = conexion.prepareStatement("DELETE FROM productos WHERE codigo = ?");
+			
+			for (String codigo : codigos) {
+				pst.setString(1, codigo);
+				pst.execute();
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

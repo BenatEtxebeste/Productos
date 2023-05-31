@@ -181,6 +181,7 @@ nav ul {
 					<div id="formulario">
 						<form method="POST" action="ModificarProducto">
 							<label>Id: <input readonly type="number" id="id" name="id" value="${producto.id}" /></label>
+							<br><br>
 							<label>Codigo: <input type="text" id="codigo" name="codigo" value="${producto.codigo}" /></label> 
 							<br>
 							<br> 
@@ -196,7 +197,11 @@ nav ul {
 							<label>Caducidad: <input type="date" id="caducidad" name="caducidad" value="${producto.caducidad}"/></label>
 							<br>
 							<br>
-							<label>Id seccion: <input type="number" id="id_seccion" name="id_seccion" value="${producto.id_seccion}" /></label>
+                    		<select required="required" name="seccion" id="inputState" class="form-control">
+		                        <c:forEach items="${secciones}" var="seccion">
+		                            <option>${seccion.id}</option>
+		                        </c:forEach>
+                    		</select>
 							<br>
 							<br>
 							<input id="LogIn" type="submit" value="MODIFICAR" />

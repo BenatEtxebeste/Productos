@@ -189,11 +189,21 @@ a:hover {
 
 		<br><br>
 		
-		<td><a class= "ordenar" href="OrdenarCodigos">ASC </a> </td>
+		<td><a class= "ordenar" href="OrdenarCodigos?ordenar=Ascendente">ASC </a> </td>
 		
 		<br>
 		
-		<td><a class= "ordenar" href="OrdenarCodigos">DES </a> </td>
+		<td><a class= "ordenar" href="OrdenarCodigos?ordernar=Descendente">DES </a> </td>
+		
+		<br><br>
+		
+		<form method="GET" action="EliminarMultiple">
+	        <div class="input-container">
+	            <input name="codigos" id="codigos" placeholder="Introduce codigos" class="input-field" type="text"> 
+	            <label for="input-field" class="input-label"></label>
+	            <span class="input-highlight"></span>
+	        </div>
+    	</form>
 
 		<h1>Productos</h1>
 
@@ -208,6 +218,7 @@ a:hover {
 					<th><span>caducidad</span></th>
 					<th><span>id_seccion</span></th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -221,6 +232,7 @@ a:hover {
 	      <td>${productos.caducidad}</td>
 	      <td>${productos.seccion.nombre}</td>
 	      <td><a class= "modificar" href="FormularioModificarProducto?id=${productos.id}">Modificar </a> </td>
+	      <td><a class= "eliminar" href="EliminarProducto?id=${productos.id}&cantidad=${productos.cantidad}">Eliminar </a> </td>
 	    </tr>
 	  </c:forEach>
   </tbody>

@@ -42,6 +42,7 @@ public class InsertarProducto extends HttpServlet {
 		double precio = Double.parseDouble(request.getParameter("precio"));
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		int id_seccion = Integer.parseInt(request.getParameter("seccion"));
+		String [] supermercados = request.getParameterValues("supermercados");
 		
 		Producto producto = new Producto();
 		
@@ -67,8 +68,11 @@ public class InsertarProducto extends HttpServlet {
 			} else {
 				mP.Conectar();
 				mP.insertarProducto(producto);
+				int idMasAlto = mP.idMasAlto();
+				mP.insertarProductoSupermercado(idMasAlto, supermercados);
 				mP.cerrar();
 			}
+			
 		
 		request.getRequestDispatcher("VerProductos").forward(request, response);
 	}

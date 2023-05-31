@@ -12,12 +12,13 @@ public class Producto {
 	private Date caducidad;
 	private int id_seccion;
 	private Seccion seccion;
+	private Supermercado supermercado;
 	
 	public Producto() {
 		super();
 	}
 	
-	public Producto(int id, String codigo, String nombre, int cantidad, double precio, Date caducidad, int id_seccion, Seccion seccion) {
+	public Producto(int id, String codigo, String nombre, int cantidad, double precio, Date caducidad, int id_seccion, Seccion seccion, Supermercado supermercado) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -27,6 +28,7 @@ public class Producto {
 		this.caducidad = caducidad;
 		this.id_seccion = id_seccion;
 		this.setSeccion(seccion);
+		this.setSupermercado(supermercado);
 	}
 
 	public int getId() {
@@ -91,6 +93,14 @@ public class Producto {
 
 	public void setSeccion(Seccion seccion) {
 		this.seccion = seccion;
+	}
+
+	public Supermercado getSupermercado() {
+		return supermercado;
+	}
+
+	public void setSupermercado(Supermercado supermercado) {
+		this.supermercado = supermercado;
 	}
 
 	@Override
